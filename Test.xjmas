@@ -1,0 +1,33 @@
+loop:
+test command
+jump switch
+jump loop
+
+switch:
+save tmp
+dec tmp
+test tmp
+jump pop
+jump push
+
+push:
+take data
+save stack
+inc push+1
+inc pop
+jump exit
+
+pop:
+take stack-1
+save data
+dec pop
+dec push+1
+
+exit:
+null command
+jump loop
+
+command: 0
+data:    0
+tmp:     0
+stack:   0

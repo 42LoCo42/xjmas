@@ -17,7 +17,10 @@ data Line = Raw (Maybe String) Int
           | Txt String
   deriving (Show)
 
+nameP :: Parser String
 nameP = spanP (\c -> isLetter c || c == '_')
+
+sepP :: Parser String
 sepP  = spanP isSeparator
 
 potentially :: Parser a -> Parser (Maybe a)

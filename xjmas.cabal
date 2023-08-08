@@ -1,0 +1,34 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.2.
+--
+-- see: https://github.com/sol/hpack
+
+name:           xjmas
+version:        1
+synopsis:       Assembler for the XJ24 microprocessor
+homepage:       https://github.com/42LoCo42/xjmas#readme
+bug-reports:    https://github.com/42LoCo42/xjmas/issues
+maintainer:     Eleonora <leonsch@protonmail.com>
+license:        GPL-3
+license-file:   LICENSE
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/42LoCo42/xjmas
+
+executable xjmas
+  main-is: Main.hs
+  other-modules:
+      Asm
+      Parser
+      XJmas
+      Paths_xjmas
+  hs-source-dirs:
+      app
+  ghc-options: -Wall
+  build-depends:
+      base
+    , flow
+  default-language: Haskell2010

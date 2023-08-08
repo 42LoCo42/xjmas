@@ -2,12 +2,14 @@ module Asm where
 
 import XJmas
 
-asm_list = zip ["umc", "take", "save",
+asmList :: [(String, Int)]
+asmList = zip ["umc", "take", "save",
            "add", "sub", "test",
            "jump", "inc", "dec",
            "null", "stop", "iomap"] [1..]
 
-first_addr = (length asm_list+1) * 2
+firstAddr :: Int
+firstAddr = (length asmList+1) * 2
 
 safeHead :: a -> [a] -> a
 safeHead a []    = a
@@ -19,17 +21,17 @@ zipWithAddr i (h@(Txt _):t) = (h, 0) : zipWithAddr i t
 zipWithAddr i (h:t)         = (h, i) : zipWithAddr (i+1) t
 
 assemble :: [(Line, Int)] -> (Line, Int) -> String
-assemble _ ((Txt s),_)          = s
-assemble _ ((Raw _ val),_)      = show val
-assemble _ ((Asm _ "umc" [
+assemble _ (Txt s, _)          = s
+assemble _ (Raw _ val, _)      = show val
+assemble _ (Asm _ "umc" [
   Num a,
   Num b,
-  Num c]),_) = (show $ 1000 + a) ++ "\n" ++ (show $ 1000*b + c)
+  Num c], _) = show (1000 + a) ++ "\n" ++ show (1000*b + c)
 
-assemble p ((Asm _ asm [arg]), addr) = show $ (1000*a + b)
+assemble p (Asm _ asm [arg], addr) = show (1000*a + b)
   where
-    a = snd $ head $ filter (\(s,_) -> s == asm) asm_list
-    b = first_addr + asmArg p addr arg
+    a = snd $ head $ filter (\(s,_) -> s == asm) asmList
+    b = firstAddr + asmArg p addr arg
 assemble _ other = "# " ++ show other
 
 asmArg :: [(Line, Int)] -> Int -> Arg -> Int
@@ -43,8 +45,8 @@ asmArg p addr (Label l) = base + offset
 
 hasLabel :: Label -> Line -> Bool
 hasLabel _ (Txt _)     = False
-hasLabel s (Raw l _)   = maybe False (== stringOf s) l
-hasLabel s (Asm l _ _) = maybe False (== stringOf s) l
+hasLabel s (Raw l _)   = (== Just (stringOf s)) l
+hasLabel s (Asm l _ _) = (== Just (stringOf s)) l
 
 stringOf :: Label -> String
 stringOf (Direct s)   = s

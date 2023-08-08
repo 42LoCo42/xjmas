@@ -1,0 +1,15 @@
+name: xjmas
+version: 1
+synopsis: Assembler for the XJ24 microprocessor
+maintainer: Eleonora <leonsch@protonmail.com>
+github: 42LoCo42/xjmas
+
+ghc-options: -Wall
+
+dependencies:
+  - base
+  - flow
+
+executable:
+  main: Main.hs
+  source-dirs: app
